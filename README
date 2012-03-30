@@ -1,0 +1,3 @@
+NC_Classifier.rb implements the classifier class interface for the website.
+SVM_Classifier.rb implements the specific SVM classifier module.
+To use SVM features in NC_Classifier, include SVM_Classifier in NC_classifier class.  
