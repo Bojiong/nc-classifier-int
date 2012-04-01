@@ -1,3 +1,20 @@
-NC_Classifier.rb implements the classifier class interface for the website.
-SVM_Classifier.rb implements the specific SVM classifier module.
-To use SVM features in NC_Classifier, include SVM_Classifier in NC_classifier class.  
+nc-classifier-int
+=================
+Files for the classifier module implemented using the ruby language.
+
+Files
+=====
+NC_Classifier.rb
+  Contains classifier class interface definition.
+
+SVM_Classifier.rb
+  Implementation of the specific SVM Classifier.
+
+/exec - contains all the classifier executables necessary
+/models - contains (pre-trained) models for classification
+/tdata - test case data
+
+Notes
+=====
+* Test cases are labeled *.test.rb where * is the class/module name.
+* The SVM_classifier calls a system executable which is OS dependent. Check the approve() function in the SVM_Classifier.rb to see which lines should be (un)commented.
