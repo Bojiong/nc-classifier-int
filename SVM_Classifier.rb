@@ -69,8 +69,8 @@ attr_accessor :svm_threshold, :svm_model, :svm_order
   # @return: name of the created svm file
   #
   def convert_to_svm(hash = {})
-    user_name = hash[:name]
-    file_name = "#{user_name}_input.svm"
+    user_id = hash[:id]
+    file_name = "#{user_id}_input.svm"
     user_file = File.new(file_name, "w")
     user_file.write("0 ")
 
