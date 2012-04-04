@@ -1,8 +1,6 @@
 ##
 # SVM_Classifier module
 #
-#
-#
 # instance:
 #   svm_thresold, svm_model, svm_order
 #
@@ -15,13 +13,18 @@
 # bn82. Mar,29,2012
 # mjz48. Apr,01,2012
 #
-class SVM_Classifier
+module SVM_Classifier
 
 # instances
 attr_accessor :svm_threshold, :svm_model, :svm_order
 
-# constructor
+  # constructor
   def initialize(params = {})
+    svm_initialize(params)
+  end
+
+  # module hook
+  def svm_initialize(params = {})
     self.svm_threshold = params[:svm_threshold]
     self.svm_model = params[:svm_model]
     self.svm_order = params[:svm_order]
@@ -32,7 +35,11 @@ attr_accessor :svm_threshold, :svm_model, :svm_order
   # @return - [boolean, float]
   #
   def approve(hash = {})
+    svm_approve(hash)
+  end
 
+  # module hook
+  def svm_approve(hash = {})
     # some defines... >_<
     #svm_command = "./svm_classify"  # for linux/mac
     svm_command = "exec/svm_classify.exe" # for windows

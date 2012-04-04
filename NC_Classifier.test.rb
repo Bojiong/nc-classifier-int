@@ -1,15 +1,15 @@
 ##
-# SVM_Classifier unit test
+# NC_Classifier unit test (calls a classifier implementation)
 #
 # mjz48. Apr,01,2012
 
 require 'NC_Classifier.rb'
-require 'SVM_Classifier.rb'
 
 puts ""
-puts "======================"
-puts "SVM_Classifier.test.rb"
+puts "====================="
+puts "NC_Classifier.test.rb"
 
+# change when implementation changes
 tfilename = "tdata/SVM_Classifier.test.data"
 
 order = [:RevolvingUtilizationOfUnsecuredLines,
@@ -19,23 +19,10 @@ order = [:RevolvingUtilizationOfUnsecuredLines,
     :NumberOfTime6089DaysPastDueNotWorse,:NumberOfDependents]
 
 puts "NC_Classifier Object created."
-nc_classifier = SVM_Classifier.new({
+nc_classifier = NC_Classifier.new({
                   :svm_model => "models/model_2_0.1_0.1",
                   :svm_threshold => 0,
                   :svm_order => order })
-
-#
-# used for debug convert_to_svm
-# To use:
-#   comment out line 47 "private" in file SVM_Classifier.rb
-# delete "=begin" and "=end" below
-#
-=begin
-user_input = c.convert_to_svm(hash,order)
-
-file = File.open(user_input, "r")
-puts file.gets
-=end
 
 # get testcases
 tfile = File.open(tfilename, "r")
