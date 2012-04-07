@@ -41,8 +41,8 @@ attr_accessor :svm_threshold, :svm_model, :svm_order
   # module hook
   def svm_approve(hash = {})
     # some defines... >_<
-    #svm_command = "./svm_classify"  # for linux/mac
-    svm_command = "exec/svm_classify.exe" # for windows
+    svm_command = "./exec/svm_classify"  # for linux/mac
+    #svm_command = "exec/svm_classify.exe" # for windows
     predict_file = "result_tmp.txt"
 
     # convert to svm format and write to file
@@ -61,8 +61,8 @@ attr_accessor :svm_threshold, :svm_model, :svm_order
     File.delete(predict_file)
     File.delete(user_input)
 
-    soft = predict - svm_threshold
-    if soft > 0
+    soft = (1 + Math.exp(-predict)) ** (-1)
+    if soft > svm_threshold
       return [TRUE, soft]
     else
       return [FALSE, soft]
