@@ -14,55 +14,52 @@
 # mjz48. Apr,01,2012
 #
 module SVM_Classifier
+  # change this if you move the svm_classify binaries in the "exec" directory
+  @@exec_path = "exec"
 
-# instances
-attr_accessor :svm_threshold, :svm_model, :svm_order
+  # try not to change this
+  @@exec_mac = "./#{@@exec_path}/mac_svm_classify"
+  @@exec_windows = "#{@@exec_path}/windows_svm_classify"
+  @@exec_linux = "./#{@@exec_path}/linux_svm_classify"
 
-  # constructor
-  def initialize(params = {})
-    svm_initialize(params)
-  end
+  # change this (to one of the three above) when you switch operating systems
+  @@exec = @@exec_linux
 
-  # module hook
+  # svm specific defines
+  @@predict_file = "result_tmp.txt"
+  
+  # instances
+  attr_accessor :threshold, :model, :order
+
   def svm_initialize(params = {})
-    self.svm_threshold = params[:svm_threshold]
-    self.svm_model = params[:svm_model]
-    self.svm_order = params[:svm_order]
+    self.threshold = params[:threshold]
+    self.model = params[:model]
+    self.order = params[:order]
   end
 
   #
   # @parameters - hash of user values
   # @return - [boolean, float]
   #
-  def approve(hash = {})
-    svm_approve(hash)
-  end
-
-  # module hook
   def svm_approve(hash = {})
-    # some defines... >_<
-    svm_command = "./exec/svm_classify"  # for linux/mac
-    #svm_command = "exec/svm_classify.exe" # for windows
-    predict_file = "result_tmp.txt"
-
     # convert to svm format and write to file
     user_input = convert_to_svm(hash)
 
     # run the svm classifier
-    system "#{svm_command} -v 0 #{user_input} #{self.svm_model} #{predict_file}"
+    system "#{@@exec} -v 0 #{user_input} #{self.model} #{@@predict_file}"
 
     # read result
-    file = File.open(predict_file, "r")
+    file = File.open(@@predict_file, "r")
     line = file.gets
     predict = line.split(" ")[0].to_f
 
-    # delet tmp files
+    # delete tmp files
     file.close
-    File.delete(predict_file)
+    File.delete(@@predict_file)
     File.delete(user_input)
 
     soft = (1 + Math.exp(-predict)) ** (-1)
-    if soft > svm_threshold
+    if soft > threshold
       return [TRUE, soft]
     else
       return [FALSE, soft]
@@ -81,11 +78,11 @@ attr_accessor :svm_threshold, :svm_model, :svm_order
     user_file = File.new(file_name, "w")
     user_file.write("0 ")
 
-    len = svm_order.length
+    len = order.length
     i = 0
     while i < len
       begin
-        param = hash[svm_order[i]].to_f
+        param = hash[order[i]].to_f
       rescue
         param = 0.0                  # default 0?????
       end

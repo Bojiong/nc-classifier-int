@@ -20,9 +20,9 @@ order = [:RevolvingUtilizationOfUnsecuredLines,
 
 puts "NC_Classifier Object created."
 nc_classifier = NC_Classifier.new({
-                  :svm_model => "models/model_2_0.1_0.1",
-                  :svm_threshold => 0.5,
-                  :svm_order => order })
+                  :model => "models/model_2_0.1_0.1",
+                  :threshold => 0.5,
+                  :order => order })
 
 # get testcases
 tfile = File.open(tfilename, "r")
