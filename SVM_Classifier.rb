@@ -15,7 +15,10 @@
 #
 module SVM_Classifier
   # change this if you move the svm_classify binaries in the "exec" directory
-  @@exec_path = "exec"
+  @@module_path = "."
+  @@exec_path = "#{@@module_path}/exec"
+  @@model_path = "#{@@module_path}/models"
+  @@tmp_path = "#{@@module_path}/tmp"
 
   # try not to change this
   @@exec_mac = "./#{@@exec_path}/mac_svm_classify"
@@ -26,14 +29,14 @@ module SVM_Classifier
   @@exec = @@exec_linux
 
   # svm specific defines
-  @@predict_file = "result_tmp.txt"
+  @@predict_file = "#{@@tmp_path}/result_tmp.txt"
   
   # instances
   attr_accessor :threshold, :model, :order
 
   def svm_initialize(params = {})
     self.threshold = params[:threshold]
-    self.model = params[:model]
+    self.model = @@model_path + "/" + params[:model]
     self.order = params[:order]
   end
 
@@ -60,9 +63,9 @@ module SVM_Classifier
 
     soft = (1 + Math.exp(-predict)) ** (-1)
     if soft > threshold
-      return [TRUE, soft]
+      return [true, soft]
     else
-      return [FALSE, soft]
+      return [false, soft]
     end
   end
 
@@ -74,7 +77,7 @@ module SVM_Classifier
   #
   def convert_to_svm(hash = {})
     user_id = hash[:id]
-    file_name = "#{user_id}_input.svm"
+    file_name = "#{@@tmp_path}/#{user_id}_input.svm"
     user_file = File.new(file_name, "w")
     user_file.write("0 ")
 
@@ -92,6 +95,7 @@ module SVM_Classifier
 
     user_file.write("\n")
     user_file.close()
+
     return file_name
   end
 end

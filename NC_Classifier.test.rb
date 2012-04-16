@@ -20,7 +20,7 @@ order = [:RevolvingUtilizationOfUnsecuredLines,
 
 puts "NC_Classifier Object created."
 nc_classifier = NC_Classifier.new({
-                  :model => "models/model_2_0.1_0.1",
+                  :model => "model_2_0.1_0.1",
                   :threshold => 0.5,
                   :order => order })
 
